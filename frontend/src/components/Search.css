@@ -42,7 +42,7 @@
     border-radius: 6px;
     flex: 1; /* To make the image fill remaining space */
     object-fit: cover; /* Ensure the image fills its container */
-    height:200px;
-    width:200px;
+    height:150px;
+    width:150px;
   }
   

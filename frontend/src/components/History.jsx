@@ -1,23 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CountryContext } from '../context/CountryContext';
 
 const SearchHistory = () => {
-  const { searchHistory, searchCountries } = useContext(CountryContext);
+  const { history, fetchCountries } = useContext(CountryContext);
 
-  const handleClickSearch = (searchTerm) => {
-    searchCountries(searchTerm);
+  useEffect(() => {
+    console.log('History:', history); // Log history to inspect its contents
+  }, [history]);
+
+  const handleClickSearch = (currencyCode) => {
+    fetchCountries(currencyCode);
   };
 
   return (
     <div>
       <h2>Search History</h2>
-      {searchHistory.length === 0 ? (
+      {history.length === 0 ? (
         <p>No recent searches.</p>
       ) : (
         <ul>
-          {searchHistory.map((search, index) => (
+          {history.map((item, index) => (
             <li key={index}>
-              <button onClick={() => handleClickSearch(search)}>{search}</button>
+              <button onClick={() => handleClickSearch(item.currencyCode)}>
+                {item.currencyCode}
+              </button>
             </li>
           ))}
         </ul>

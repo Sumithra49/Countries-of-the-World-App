@@ -7,13 +7,13 @@ export const CountryProvider = ({ children }) => {
   const [countries, setCountries] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [history, setHistory] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchCountries = async (currencyCode) => {
     try {
-      console.log(`Fetching countries with currency code: ${currencyCode}`);
       const response = await axios.get(`https://restcountries.com/v2/currency/${currencyCode}`);
-      console.log('Response data:', response.data);
       setCountries(response.data);
+      updateSearchHistory(currencyCode, response.data[0].currencies[0].name); // Update search history with currency name
     } catch (error) {
       console.error('Error fetching countries:', error);
     }
@@ -43,6 +43,17 @@ export const CountryProvider = ({ children }) => {
       setHistory(response.data);
     } catch (error) {
       console.error('Error fetching history:', error);
+    }
+  };
+
+  const updateSearchHistory = (currencyCode, currencyName) => {
+    // Avoid duplicates in search history
+    if (!history.some(item => item.currencyCode === currencyCode)) {
+      const updatedHistory = [...history, { currencyCode, currencyName }];
+      setHistory(updatedHistory);
+      // Assuming you have an endpoint to save search history
+      axios.post('http://localhost:5000/history', { history: updatedHistory })
+        .catch(error => console.error('Error saving search history:', error));
     }
   };
 
