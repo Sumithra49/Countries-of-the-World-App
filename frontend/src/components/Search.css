@@ -1,0 +1,48 @@
+.search-container {
+    /* max-width: 600px; */
+    margin: 0 auto;
+    padding: 20px;
+   
+  }
+  
+  .results-container {
+    margin-top: 20px;
+  }
+  
+  .card-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-content: start; /* Align grid items to the start (left-aligned) */
+    column-gap: 20px;
+  }
+  
+  .card {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    height: 300px; /* Example height */
+    width: 300px; /* Example width */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow: hidden; /* Ensure content inside does not overflow */
+    border: 1px solid;
+  }
+  
+  .card h3 {
+    margin-bottom: 10px;
+    overflow: hidden; /* Ensure heading text does not overflow */
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+    white-space: nowrap; /* Prevent wrapping of heading text */
+  }
+  
+  .flag-img {
+    /* max-width: 100%; */
+    border-radius: 6px;
+    flex: 1; /* To make the image fill remaining space */
+    object-fit: cover; /* Ensure the image fills its container */
+    height:200px;
+    width:200px;
+  }
+  
