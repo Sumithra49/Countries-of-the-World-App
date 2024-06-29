@@ -14,7 +14,7 @@ const Search = () => {
   };
 
   const handleAddFavorite = (country) => {
-    addFavorite(country);
+    addFavorite(country); // Pass the entire country object to addFavorite
   };
 
   const isFavorite = (country) => {
@@ -30,7 +30,6 @@ const Search = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
-    
 
       {countries.length > 0 && (
         <div className="results-container">
@@ -47,7 +46,7 @@ const Search = () => {
                 {country.flags && (
                   <img src={country.flags.svg} alt={`Flag of ${country.name}`} className="flag-img" />
                 )}
-                <button onClick={() => handleAddFavorite(country)}>
+                <button onClick={() => handleAddFavorite(country)} >
                   <FaHeart color={isFavorite(country) ? 'red' : 'gray'} />
                 </button>
               </div>

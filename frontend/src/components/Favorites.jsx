@@ -1,50 +1,34 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { CountryContext } from '../context/CountryContext';
+import './Favorite.css'; // Import your CSS file for styling
 
 const Favorites = () => {
   const { favorites, fetchFavorites } = useContext(CountryContext);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchFavorites();
-  }, []);
-
-  const handleRemoveFavorite = async (countryId) => {
-    try {
-      setLoading(true);
-      await axios.delete(`http://localhost:5000/favorites/${countryId}`);
-      await fetchFavorites(); // Refresh favorites after deletion
-    } catch (error) {
-      console.error('Error removing favorite:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchFavorites(); // Call fetchFavorites function from context
+  }, []); // Empty dependency array to fetch only once on mount
 
   return (
-    <div>
+    <div className="favorites-container">
       <h2>Favorite Countries</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : favorites.length === 0 ? (
-        <p>No favorite countries added yet.</p>
-      ) : (
-        <div>
-          {favorites.map(country => (
-            <div key={country._id}>
-              <h3>{country.name}</h3>
-              <p>Currency: {country.currency}</p>
-              <p>Capital: {country.capital}</p>
-              <p>Languages: {country.languages.join(', ')}</p>
-              <img src={`https://www.countryflags.io/${country.alpha2Code}/flat/64.png`} alt={`Flag of ${country.name}`} />
-              <button onClick={() => handleRemoveFavorite(country._id)}>Remove from Favorites</button>
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="favorites-list">
+        {favorites.map((country, index) => (
+          <div key={index} className="favorite-card">
+            <h3>{country.name}</h3>
+            {country.currencies && country.currencies.length > 0 && (
+              <p><strong>Currency:</strong> {country.currencies[0].code} - {country.currencies[0].name}</p>
+            )}
+            <p><strong>Capital:</strong> {country.capital}</p>
+            <p><strong>Languages:</strong> {country.languages.map(lang => lang.name).join(', ')}</p>
+            {country.flags && (
+              <img src={country.flags.svg} alt={`Flag of ${country.name}`} className="flag-img" />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default Favorites;

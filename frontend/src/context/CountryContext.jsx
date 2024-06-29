@@ -19,12 +19,14 @@ export const CountryProvider = ({ children }) => {
     }
   };
 
-  const addFavorite = async (country) => {
-    try {
-      const response = await axios.post('http://localhost:5000/favorites', country);
-      setFavorites(response.data);
-    } catch (error) {
-      console.error('Error adding favorite:', error);
+  const addFavorite = (country) => {
+    // Ensure no duplicates in favorites
+    if (!favorites.some(favorite => favorite.name === country.name)) {
+      const updatedFavorites = [...favorites, country];
+      setFavorites(updatedFavorites);
+      // Assuming you have an endpoint to save favorites
+      axios.post('http://localhost:5000/favorites', country)
+        .catch(error => console.error('Error saving favorite:', error));
     }
   };
 
@@ -63,8 +65,9 @@ export const CountryProvider = ({ children }) => {
   }, []);
 
   return (
-    <CountryContext.Provider value={{ countries, favorites, history, fetchCountries, addFavorite }}>
-      {children}
-    </CountryContext.Provider>
+    <CountryContext.Provider value={{ countries, favorites, history, fetchCountries, addFavorite, fetchFavorites }}>
+  {children}
+</CountryContext.Provider>
+
   );
 };
