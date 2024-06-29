@@ -4,6 +4,7 @@ const CountrySchema = new mongoose.Schema({
   name: String,
   currency: String,
   capital: String,
+
   languages: [String],
   flag: String,
 });
